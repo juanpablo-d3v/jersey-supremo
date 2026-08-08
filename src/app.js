@@ -1,3 +1,6 @@
+import menImage from './assets/images/men.png';
+import womenImage from './assets/images/women.png';
+
 export class App {
   constructor() {
     this.currentStep = 1;
@@ -86,8 +89,8 @@ export class App {
             <!-- Men's Card -->
             <button class="gender-card" id="btn-mens" data-gender="mens">
               <div class="gender-card__bg">
-                <img class="gender-card__image" 
-                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGVu-pSFrqO6_72TmvAL1g2pSGekS_k9Q3eXZoUZE-zQ3QF5kMMfwjgB8PWFGTad8GmoMnLIE9_E5pHk90Cg8_mHlnzkfT5CtnTNhAjSEhiaIAIUMYSLypSPcBPSJti9922lJKDj33-htSxl6PrmeDM_NoAICJxOmUJD0SPk3OQGl493Gxpj1WGUf47y98XRAk6Gaqai85wVnt_qV8MUXcsoyFirLXhuumkIJi540Y_Zj1YTQFD9yE" 
+<img class="gender-card__image" 
+                     src="${menImage}" 
                      alt="Male cyclist">
                 <div class="gender-card__overlay"></div>
               </div>
@@ -100,8 +103,8 @@ export class App {
             <!-- Women's Card -->
             <button class="gender-card" id="btn-womens" data-gender="womens">
               <div class="gender-card__bg">
-                <img class="gender-card__image" 
-                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBslpPtLUwRLTuyglj3HfO5CDKsS8tXQsqAOBRUb3BEplMJjLUcxfEDklQ60DcjSBdbLYrpZGq28rxdc23DUjg1TT48mBeebzKbSr8_-isRi-nzrtsBzAz47uzLX1sKQjZAlzTh0x20VwbkB3a4T0sOFlXtebFuAGqobQ7A7L_RFH9Tfh4ELi06A7XLGE5z15jcsobSX4hy-iVrwI5xPyXM-OphixemLFgIP84588fwO_CeT7XmG9ny" 
+<img class="gender-card__image" 
+                     src="${womenImage}" 
                      alt="Female cyclist">
                 <div class="gender-card__overlay"></div>
               </div>
