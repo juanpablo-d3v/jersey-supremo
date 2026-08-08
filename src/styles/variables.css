@@ -100,4 +100,6 @@
   --spacing-stack-sm: 8px;
   --spacing-stack-md: 16px;
   --spacing-stack-lg: 32px;
+
+  --footer-height: 96px;
 }

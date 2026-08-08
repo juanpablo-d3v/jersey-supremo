@@ -113,7 +113,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: calc(var(--header-height) + var(--progress-height) + var(--spacing-stack-lg)) var(--spacing-margin-mobile) var(--spacing-stack-lg);
+  padding: calc(var(--header-height) + var(--progress-height) + var(--spacing-stack-lg)) var(--spacing-margin-mobile) calc(var(--footer-height) + var(--spacing-stack-lg));
   max-width: 80rem;
   margin: 0 auto;
   width: 100%;
@@ -121,7 +121,7 @@
 
 @media (min-width: 768px) {
   .wizard-main {
-    padding: calc(var(--header-height) + var(--progress-height) + var(--spacing-stack-lg)) var(--spacing-margin-desktop) var(--spacing-stack-lg);
+    padding: calc(var(--header-height) + var(--progress-height) + var(--spacing-stack-lg)) var(--spacing-margin-desktop) calc(var(--footer-height) + var(--spacing-stack-lg));
   }
 }
 
@@ -403,9 +403,9 @@
 .speed-line {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 50%, transparent);
   height: 1px;
-  width: 100vw;
-  margin-left: -50vw;
-  left: 50%;
+  width: 100%;
+  margin-left: 0;
+  left: 0;
   position: relative;
 }
 
@@ -1043,8 +1043,8 @@
 
 /* Speed line wider */
 .speed-line-wide {
-  width: 150%;
-  transform: translateX(-16%);
+  width: 100%;
+  transform: translateX(0);
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2) 50%, transparent);
 }
 

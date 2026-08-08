@@ -463,7 +463,7 @@ export class App {
         </div>
         <div class="wizard-step-indicator" id="step-indicator">03 / 05</div>
 
-        <main class="wizard-main" style="padding-top: calc(var(--header-height) + var(--progress-height) + var(--spacing-stack-md) + 48px);">
+        <main class="wizard-main">
           <h1 class="wizard-content__title" style="color: var(--color-primary); margin-bottom: var(--spacing-stack-md);">Select Bottoms</h1>
           <div class="wizard-content__divider speed-line speed-line-wide"></div>
 
@@ -521,12 +521,6 @@ export class App {
     // Update progress bar to 60% for step 3
     if (progressFill) {
       progressFill.style.width = '60%';
-    }
-
-    // Update step indicator
-    const stepIndicator = document.getElementById('step-indicator');
-    if (stepIndicator) {
-      stepIndicator.innerHTML = '<span>03 BOTTOMS</span><span>STEP 3 OF 5</span>';
     }
 
     const jerseyTiers = {
@@ -678,25 +672,23 @@ export class App {
 
     return `
       <div class="wizard-app">
+        <!-- Top AppBar -->
+        <header class="wizard-header">
+          <button class="wizard-header__btn" aria-label="Close">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+          </button>
+          <div class="wizard-header__title">APHESIS</div>
+          <button class="wizard-header__save" aria-label="Save">SAVE</button>
+        </header>
+
+        <!-- Progress Indicator -->
+        <div class="wizard-progress" id="progress-bar">
+          <div class="wizard-progress__fill progress-bar-active" id="progress-fill" style="width: 80%"></div>
+        </div>
+        <div class="wizard-step-indicator" id="step-indicator">04 / 05</div>
+
         <!-- Main Content Canvas -->
         <main class="wizard-main">
-          <!-- Top AppBar (Mobile) -->
-          <header class="wizard-header md:hidden">
-            <button class="wizard-header__btn" aria-label="Close">
-              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
-            </button>
-            <div class="wizard-header__title">APHESIS</div>
-            <button class="wizard-header__save" aria-label="Save">SAVE</button>
-          </header>
-
-          <!-- Progress Bar -->
-          <div class="wizard-progress" id="progress-bar">
-            <div class="wizard-progress__fill progress-bar-active" id="progress-fill" style="width: 80%"></div>
-          </div>
-          <div class="wizard-step-indicator" id="step-indicator" style="top: calc(var(--header-height) + var(--progress-height) + var(--spacing-unit)); right: var(--spacing-margin-mobile);">
-            04 / 05
-          </div>
-
           <div class="max-w-[1200px] mx-auto px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-margin-desktop)] py-[var(--spacing-stack-lg)]">
             <div class="flex items-baseline justify-between mb-[var(--spacing-stack-md)]">
               <h2 class="wizard-content__title">Accessories</h2>
@@ -859,27 +851,24 @@ export class App {
 
     return `
       <div class="wizard-app">
-        <!-- Mobile Top App Bar -->
-        <header class="wizard-header wizard-header--summary md:hidden">
+        <!-- Top AppBar -->
+        <header class="wizard-header">
           <button class="wizard-header__btn" aria-label="Close">
-            <span class="material-symbols-outlined">close</span>
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
           </button>
           <div class="wizard-header__title">APHESIS</div>
           <button class="wizard-header__save" aria-label="Save">SAVE</button>
         </header>
 
         <!-- Progress Indicator -->
-        <div class="wizard-progress wizard-progress--complete" id="progress-bar">
+        <div class="wizard-progress" id="progress-bar">
           <div class="wizard-progress__fill" id="progress-fill" style="width: 100%"></div>
         </div>
+        <div class="wizard-step-indicator" id="step-indicator">05 / 05</div>
 
         <!-- Main Content Canvas -->
         <main class="wizard-main summary-main">
           <div class="summary-header">
-            <button class="summary-header__back" id="btn-back" aria-label="Go back to kit configuration">
-              <span class="material-symbols-outlined summary-header__back-icon">arrow_back</span>
-              <span class="summary-header__back-label">Back to Kit</span>
-            </button>
             <h2 class="summary-header__title">05. Summary</h2>
             <div class="summary-header__divider"></div>
             <p class="summary-header__description">Finalize your kinetic precision configuration. Review your selections below before proceeding to checkout.</p>
@@ -990,20 +979,33 @@ export class App {
             </div>
           </div>
         </main>
+
+        <!-- Bottom Action Bar -->
+        <footer class="wizard-footer">
+          <button class="wizard-footer__cancel" id="btn-back">BACK</button>
+          <button class="wizard-footer__next" id="btn-complete-order-footer">Complete Order</button>
+        </footer>
       </div>
     `;
   }
 
   bindSummaryEvents() {
     const completeBtn = document.getElementById('btn-complete-order');
+    const footerCompleteBtn = document.getElementById('btn-complete-order-footer');
     const promoBtn = document.querySelector('.promo-input__btn');
     const promoInput = document.querySelector('.promo-input');
 
+    const completeOrder = () => {
+      // Placeholder for order completion
+      alert('Order completed! Thank you for your purchase.');
+    };
+
     if (completeBtn) {
-      completeBtn.addEventListener('click', () => {
-        // Placeholder for order completion
-        alert('Order completed! Thank you for your purchase.');
-      });
+      completeBtn.addEventListener('click', completeOrder);
+    }
+
+    if (footerCompleteBtn) {
+      footerCompleteBtn.addEventListener('click', completeOrder);
     }
 
     if (promoBtn && promoInput) {
