@@ -1,0 +1,181 @@
+{
+  "catalog": {
+    "currency": "MXN",
+    "year": 2026,
+    "brand": "APHESIS",
+    "lines": [
+      {
+        "id": "standard",
+        "name": "STANDARD",
+        "products": [
+          {
+            "id": "std-jersey-mc",
+            "name": "Jersey manga corta STD",
+            "category": "Jerseys",
+            "price": 830.00,
+            "image": "src/assets/images/jersey-mc.jpeg"
+          },
+          {
+            "id": "std-jersey-ml",
+            "name": "Jersey manga larga STD",
+            "category": "Jerseys",
+            "price": 960.00,
+            "image": "src/assets/images/jersey-ml.jpg"
+          },
+          {
+            "id": "std-bib-short",
+            "name": "Bib Short STD",
+            "category": "Shorts & Bibs",
+            "price": 926.00,
+            "image": "src/assets/images/bib-short.jpeg"
+          },
+          {
+            "id": "std-short",
+            "name": "Short STD",
+            "category": "Shorts & Bibs",
+            "price": 700.00,
+            "image": "src/assets/images/short.png"
+          },
+          {
+            "id": "std-malla-con-tirantes",
+            "name": "Malla STD con tirantes",
+            "category": "Mallas",
+            "price": 1200.00,
+            "image": "src/assets/images/tights-tirantes.png"
+          },
+          {
+            "id": "std-malla-sin-tirantes",
+            "name": "Malla STD sin tirantes",
+            "category": "Mallas",
+            "price": 1050.00,
+            "image": "src/assets/images/tights.png"
+          },
+          {
+            "id": "std-jersey-enduro",
+            "name": "Jersey Enduro",
+            "category": "Jerseys",
+            "price": 780.00,
+            "image": "src/assets/images/jersey-mc.jpeg"
+          }
+        ]
+      },
+      {
+        "id": "elite",
+        "name": "ELITE",
+        "products": [
+          {
+            "id": "elite-jersey-mc",
+            "name": "Jersey manga corta ELITE",
+            "category": "Jerseys",
+            "price": 950.00,
+            "image": "src/assets/images/jersey-mc.jpeg"
+          },
+          {
+            "id": "elite-jersey-ml",
+            "name": "Jersey manga larga ELITE",
+            "category": "Jerseys",
+            "price": 1050.00,
+            "image": "src/assets/images/jersey-ml.jpg"
+          },
+          {
+            "id": "elite-bib-short",
+            "name": "Bib short ELITE",
+            "category": "Shorts & Bibs",
+            "price": 1230.00,
+            "image": "src/assets/images/bib-short.jpeg"
+          },
+          {
+            "id": "elite-short",
+            "name": "Short ELITE",
+            "category": "Shorts & Bibs",
+            "price": 870.00,
+            "image": "src/assets/images/short.png"
+          },
+          {
+            "id": "elite-malla-con-tirantes",
+            "name": "Malla con tirante ELITE",
+            "category": "Mallas",
+            "price": 1450.00,
+            "image": "src/assets/images/tights-tirantes.png"
+          },
+          {
+            "id": "elite-malla-sin-tirantes",
+            "name": "Malla sin tirante ELITE",
+            "category": "Mallas",
+            "price": 1375.00,
+            "image": "src/assets/images/tights.png"
+          }
+        ]
+      },
+      {
+        "id": "premier",
+        "name": "PREMIER",
+        "products": [
+          {
+            "id": "premier-jersey-mc",
+            "name": "Jersey manga corta PREMIER",
+            "category": "Jerseys",
+            "price": 1280.00,
+            "image": "src/assets/images/jersey-mc.jpeg"
+          },
+          {
+            "id": "premier-jersey-ml",
+            "name": "Jersey manga larga PREMIER",
+            "category": "Jerseys",
+            "price": 1430.00,
+            "image": "src/assets/images/jersey-ml.jpg"
+          },
+          {
+            "id": "premier-bib-short",
+            "name": "Bib short PREMIER",
+            "category": "Shorts & Bibs",
+            "price": 1460.00,
+            "image": "src/assets/images/bib-short.jpeg"
+          },
+          {
+            "id": "premier-malla-con-tirantes",
+            "name": "Malla con tirantes PREMIER",
+            "category": "Mallas",
+            "price": 1600.00,
+            "image": "src/assets/images/tights-tirantes.png"
+          },
+          {
+            "id": "premier-malla-sin-tirantes",
+            "name": "Malla sin tirantes PREMIER",
+            "category": "Mallas",
+            "price": 1400.00,
+            "image": "src/assets/images/tights.png"
+          }
+        ]
+      }
+    ],
+    "accessories": [
+      {
+        "id": "gloves",
+        "name": "Guantes",
+        "price": 375.00,
+        "image": "src/assets/images/gloves.jpeg"
+      },
+      {
+        "id": "bandana",
+        "name": "Bandana",
+        "price": 190.00,
+        "image": "src/assets/images/bandana.jpeg"
+      }
+    ],
+    "add_ons": [
+      {
+        "id": "nombre-personalizado",
+        "name": "Nombre Personalizado",
+        "type": "fixed_price",
+        "price": 100.00
+      },
+      {
+        "id": "oversize-surcharge",
+        "name": "Tallas 3XG, 4XG, 5XG",
+        "type": "per_piece_surcharge",
+        "price": 110.00
+      }
+    ]
+  }
+}

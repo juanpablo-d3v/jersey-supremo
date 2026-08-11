@@ -2083,3 +2083,71 @@
 
 /* Speed line divider - already defined */
 /* .speed-line-divider { ... } */
+
+/* ============================================
+   DATA-DRIVEN ADDITIONS
+   ============================================ */
+
+/* Accessories section subtitle */
+.accessories-grid__subtitle {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-label-caps);
+  line-height: var(--line-height-label-caps);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label-caps);
+  color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+  margin: var(--spacing-stack-lg) 0 var(--spacing-stack-md);
+  text-align: center;
+  width: 100%;
+}
+
+/* Add-on card image placeholder */
+.accessory-card__image-wrapper--addon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.accessories-grid__addon-icon {
+  font-size: 64px;
+  color: var(--color-on-surface-variant);
+  opacity: 0.6;
+}
+
+.accessory-card.selected .accessories-grid__addon-icon {
+  color: var(--color-primary);
+}
+
+/* Summary accessories mini img */
+.accessory-mini-card__image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8;
+}
+
+/* Summary empty accessories state */
+.accessory-mini-card__empty {
+  grid-column: 1 / -1;
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-data-label);
+  line-height: var(--line-height-data-label);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-data-label);
+  color: var(--color-on-surface-variant);
+  text-align: center;
+  padding: var(--spacing-stack-md);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+}
+
+/* Running total inside bottom bar */
+.wizard-footer__total {
+  text-align: center;
+}
+
+.wizard-footer .wizard-footer__total {
+  flex: 1;
+}

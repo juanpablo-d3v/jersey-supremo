@@ -1,5 +1,6 @@
 import menImage from './assets/images/men.png';
 import womenImage from './assets/images/women.png';
+import { getJerseys, getBottoms, getAccessories, getAddOns, getProductById, getSizeOptions, formatPrice } from './data/catalog.js';
 
 export class App {
   constructor() {
@@ -8,16 +9,17 @@ export class App {
     this.data = {
       gender: null,
       jersey: {
-        tier: 'premier',
-        textile: null,
+        product: null,
         size: null
       },
       bottoms: {
-        tier: 'elite',
-        type: 'bib',
+        product: null,
         size: null
       },
       accessories: {
+        items: []
+      },
+      add_ons: {
         items: []
       }
     };
@@ -28,9 +30,21 @@ export class App {
     this.bindEvents();
   }
 
+  genderLabel() {
+    return this.data.gender === 'womens' ? "Women's" : "Men's";
+  }
+
+  jerseySizeScope() {
+    return this.data.gender === 'womens' ? 'JERSEY MUJER' : 'JERSEY HOMBRE';
+  }
+
+  bottomsSizeScope() {
+    return this.data.gender === 'womens' ? 'SHORT/BIB MUJER' : 'SHORT/BIB HOMBRE';
+  }
+
   renderStep(step) {
     const app = document.getElementById('app');
-    
+
     switch (step) {
       case 1:
         app.innerHTML = this.renderGenderStep();
@@ -55,7 +69,7 @@ export class App {
       default:
         app.innerHTML = '<div class="wizard-content">Step not implemented</div>';
     }
-    
+
     this.updateProgress(step);
   }
 
@@ -89,8 +103,8 @@ export class App {
             <!-- Men's Card -->
             <button class="gender-card" id="btn-mens" data-gender="mens">
               <div class="gender-card__bg">
-<img class="gender-card__image" 
-                     src="${menImage}" 
+                <img class="gender-card__image"
+                     src="${menImage}"
                      alt="Male cyclist">
                 <div class="gender-card__overlay"></div>
               </div>
@@ -103,8 +117,8 @@ export class App {
             <!-- Women's Card -->
             <button class="gender-card" id="btn-womens" data-gender="womens">
               <div class="gender-card__bg">
-<img class="gender-card__image" 
-                     src="${womenImage}" 
+                <img class="gender-card__image"
+                     src="${womenImage}"
                      alt="Female cyclist">
                 <div class="gender-card__overlay"></div>
               </div>
@@ -136,7 +150,7 @@ export class App {
 
     const selectGender = (gender) => {
       this.data.gender = gender;
-      
+
       if (gender === 'mens') {
         mensBtn.classList.add('active');
         womensBtn.classList.remove('active');
@@ -151,7 +165,7 @@ export class App {
 
     mensBtn.addEventListener('click', () => selectGender('mens'));
     womensBtn.addEventListener('click', () => selectGender('womens'));
-    
+
     nextBtn.addEventListener('click', () => {
       if (!nextBtn.disabled) {
         this.nextStep();
@@ -162,12 +176,12 @@ export class App {
   updateProgress(step) {
     const progressFill = document.getElementById('progress-fill');
     const stepIndicator = document.getElementById('step-indicator');
-    
+
     if (progressFill) {
       const percentage = (step / this.totalSteps) * 100;
       progressFill.style.width = `${percentage}%`;
     }
-    
+
     if (stepIndicator) {
       stepIndicator.textContent = `${String(step).padStart(2, '0')} / ${String(this.totalSteps).padStart(2, '0')}`;
     }
@@ -187,42 +201,10 @@ export class App {
     }
   }
 
-  renderJerseyStep() {
-    const tiers = [
-      {
-        id: 'standard',
-        name: 'Standard Jersey',
-        price: 830,
-        badge: 'STD',
-        description: 'Foundation level performance with adaptable thermal regulation.',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuApPn1f9tzNX_tbyoWYFbiJ-cUZiO_aVdDmWyBJBCGO--SzV9gnS307eSuYg1TRZdDJG9PYaZxFqGhEdmLxYtU-pOnYO5tIgblfL31WMTK3GQ1ldXZK432sFQH5Gwyq-A9wBtX6DWO931aLBSrOipYBLI-QK40PUZN_qanPFP9-nuqgG1osZo0DycPhQT__WvBXRbL8lNSF1miAU-odYXDIlK_bK3JCM7VaJtlIEsB4pmcem9l6GTGR',
-        hasTextile: true,
-        sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
-      },
-      {
-        id: 'elite',
-        name: 'Elite Jersey',
-        price: 950,
-        badge: 'ELT',
-        description: 'Aerodynamic ribbed construction with laser-cut precision fit for competitive racing.',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkB5AJVgy4eZxRkZQUiwsrxuIEAPHyOjFrD0CdNF29vKdLQfRiY1qEGUM-np_wC7RHB9h5nynYiWz5rd0DKhPLRX6i2YPPPlQofZ9oi3ld1QtTiioyaA_QhwykTd7yqYYx0JO0D7hNY_K-9-G295-LigV1y2lLjBU7ypOPz6PRm27Yoa7f0sG6OdPUz9c2GajYcMeyn_YbSuUy8-tlrDmX06Z8wl9poiulCed1rNWg4dyl9vIJLoNt',
-        hasTextile: false,
-        sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
-      },
-      {
-        id: 'premier',
-        name: 'Premier Jersey',
-        price: 1280,
-        badge: 'PRM',
-        description: 'The pinnacle of kinetic engineering. Ultra-lightweight matrix fabric woven with microscopic drag-reduction channels.',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCMfXxuGIhgK2iV2t8MECRm6gGezMpZBj6N2YJDSZ_lT49dUFrroQGN4knWbkDWfgSwTDB5yBRdBzUgvE5pLvsGrI9LZchJJTOFDCH_fQXxk36MZ-RMFW8qQWpAqPJYi0nxrbp5sWyQvgSQNvimQWjUYp7te8VkzngrYcCp-D7WVjtw78yAlUH3bu88hFhKHnv1rCMecxV4hKT7gCIxMAZ5seY8nJmdSkRrUDUWt5sPcNPQUD08pWhu',
-        hasTextile: false,
-        sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
-      }
-    ];
-
-    const currentTier = this.data.jersey.tier;
-    const currentPrice = tiers.find(t => t.id === currentTier)?.price || 1280;
+  renderCatalogStep({ title, items, sizeScope, currentProduct, currentSize, imageFor, step = 2 }) {
+    const sizeOptions = getSizeOptions(sizeScope);
+    const stepNumber = String(step).padStart(2, '0');
+    const totalNumber = String(this.totalSteps).padStart(2, '0');
 
     return `
       <div class="wizard-app">
@@ -237,65 +219,52 @@ export class App {
 
         <!-- Progress Indicator -->
         <div class="wizard-progress" id="progress-bar">
-          <div class="wizard-progress__fill" id="progress-fill" style="width: 40%"></div>
+          <div class="wizard-progress__fill progress-bar-active" id="progress-fill" style="width: ${(step / this.totalSteps) * 100}%"></div>
         </div>
-        <div class="wizard-step-indicator" id="step-indicator">02 / 05</div>
+        <div class="wizard-step-indicator" id="step-indicator">${stepNumber} / ${totalNumber}</div>
 
         <!-- Main Content Canvas -->
         <main class="wizard-main">
           <div class="wizard-content">
-            <h2 class="wizard-content__title">Select Performance Tier</h2>
+            <h2 class="wizard-content__title">${title}</h2>
             <div class="wizard-content__divider speed-line"></div>
           </div>
 
           <div class="product-grid" id="product-grid">
-            ${tiers.map(tier => `
-              <button class="product-card ${tier.id === currentTier ? 'active' : ''}" 
-                      data-tier="${tier.id}" 
-                      data-price="${tier.price}">
-                <img class="product-card__image" 
-                     src="${tier.image}" 
-                     alt="${tier.name}">
-                <div class="product-card__content">
-                  <div class="product-card__header">
-                    <span class="product-card__price">$${tier.price.toLocaleString()}</span>
-                    <span class="product-card__tier-badge">${tier.badge}</span>
-                  </div>
-                  <h3 class="product-card__title">${tier.name}</h3>
-                  <p class="product-card__description">${tier.description}</p>
-                  
-                  ${tier.hasTextile ? `
+            ${items.map(item => {
+              const isActive = item.id === currentProduct;
+              return `
+                <button class="product-card ${isActive ? 'active' : ''}"
+                        data-product="${item.id}"
+                        data-price="${item.price}">
+                  <img class="product-card__image"
+                       src="${imageFor(item)}"
+                       alt="${item.name}">
+                  <div class="product-card__content">
+                    <div class="product-card__header">
+                      <span class="product-card__price">${formatPrice(item.price)}</span>
+                      <span class="product-card__tier-badge">${item.tierLabel}</span>
+                    </div>
+                    <h3 class="product-card__title">${item.name}</h3>
+                    <p class="product-card__description">${item.category.toUpperCase()} · ${item.tierName} LINE</p>
+
                     <div class="product-card__section">
-                      <span class="product-card__section-label">TEXTILE MATRIX</span>
-                      <div class="radio-group">
-                        <label class="radio-option">
-                          <input type="radio" name="textile-${tier.id}" value="3dx" ${this.data.jersey.textile === '3dx' ? 'checked' : ''} disabled>
-                          <span class="radio-option__indicator"></span>
-                          <span class="radio-option__label">3DX</span>
-                        </label>
-                        <label class="radio-option">
-                          <input type="radio" name="textile-${tier.id}" value="redmesh" ${this.data.jersey.textile === 'redmesh' ? 'checked' : ''} disabled>
-                          <span class="radio-option__indicator"></span>
-                          <span class="radio-option__label">Redmesh</span>
-                        </label>
+                      <span class="product-card__section-label">Select Size</span>
+                      <div class="size-group">
+                        ${sizeOptions.map(size => `
+                          <label class="size-option">
+                            <input type="radio" name="size-${item.id}" value="${size}"
+                                   ${isActive && currentSize === size ? 'checked' : ''}
+                                   ${!isActive ? 'disabled' : ''}>
+                            <span class="size-option__label">${size}</span>
+                          </label>
+                        `).join('')}
                       </div>
                     </div>
-                  ` : ''}
-
-                  <div class="product-card__section">
-                    <span class="product-card__section-label">Select Size</span>
-                    <div class="size-group">
-                      ${tier.sizes.map(size => `
-                        <label class="size-option">
-                          <input type="radio" name="size-${tier.id}" value="${size}" ${this.data.jersey.size === size && tier.id === currentTier ? 'checked' : ''} ${tier.id !== currentTier ? 'disabled' : ''}>
-                          <span class="size-option__label">${size}</span>
-                        </label>
-                      `).join('')}
-                    </div>
                   </div>
-                </div>
-              </button>
-            `).join('')}
+                </button>
+              `;
+            }).join('')}
           </div>
         </main>
 
@@ -308,364 +277,49 @@ export class App {
     `;
   }
 
-  bindJerseyEvents() {
-    const productCards = document.querySelectorAll('.product-card');
-    const nextBtn = document.getElementById('btn-next');
-    const runningTotal = document.getElementById('running-total');
-
-    const selectTier = (selectedCard) => {
-      const tierId = selectedCard.dataset.tier;
-      const price = parseInt(selectedCard.dataset.price);
-
-      // Remove active from all cards
-      productCards.forEach(card => {
-        card.classList.remove('active');
-        
-        // Disable size inputs for non-active cards
-        const sizeInputs = card.querySelectorAll('input[name^="size-"]');
-        sizeInputs.forEach(input => {
-          input.disabled = true;
-          input.checked = false;
-        });
-        
-        // Remove checked from size labels
-        const sizeLabels = card.querySelectorAll('.size-option__label');
-        sizeLabels.forEach(label => {
-          label.style.backgroundColor = '';
-          label.style.color = '';
-          label.style.borderColor = '';
-        });
-      });
-
-      // Add active to selected
-      selectedCard.classList.add('active');
-
-      // Enable size inputs for active card
-      const activeSizeInputs = selectedCard.querySelectorAll('input[name^="size-"]');
-      activeSizeInputs.forEach(input => {
-        input.disabled = false;
-      });
-
-      // Update data
-      this.data.jersey.tier = tierId;
-      this.data.jersey.size = null; // Reset size when tier changes
-
-      // Update price
-      if (runningTotal) {
-        runningTotal.textContent = `$${price.toLocaleString()}`;
-      }
-    };
-
-    productCards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        // Don't trigger if clicking on radio inputs or labels
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL' || e.target.closest('.radio-option') || e.target.closest('.size-option')) {
-          return;
-        }
-        selectTier(card);
-      });
+  renderJerseyStep() {
+    const jerseys = getJerseys();
+    return this.renderCatalogStep({
+      title: 'Select Jersey',
+      items: jerseys,
+      sizeScope: this.jerseySizeScope(),
+      currentProduct: this.data.jersey.product,
+      currentSize: this.data.jersey.size,
+      imageFor: (item) => item.image,
+      step: 2
     });
-
-    // Handle size selection
-    document.querySelectorAll('.size-option input').forEach(input => {
-      input.addEventListener('change', (e) => {
-        if (e.target.checked) {
-          this.data.jersey.size = e.target.value;
-        }
-      });
-    });
-
-    // Handle textile selection (only for standard tier)
-    document.querySelectorAll('.radio-option input').forEach(input => {
-      input.addEventListener('change', (e) => {
-        if (e.target.checked) {
-          this.data.jersey.textile = e.target.value;
-        }
-      });
-    });
-
-    nextBtn.addEventListener('click', () => {
-      this.nextStep();
-    });
-
-    const backBtn = document.getElementById('btn-back');
-    if (backBtn) {
-      backBtn.addEventListener('click', () => {
-        this.prevStep();
-      });
-    }
   }
 
   renderBottomsStep() {
-    const tiers = [
-      {
-        id: 'standard',
-        name: 'Core Endurance',
-        price: 700,
-        badge: 'STD',
-        tierLabel: 'STANDARD',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBpzbaerwP19Xx_sLBN2A3CB1PMkqZcadNSmoLBhVkjEFumo8kg7Q4w16Glndng-G0Rbp_HNKxfWLgZU4QnMJH-lsBrsJNuYVo1P2Y7BiQItpjsQLcqwUcjRm2MHhnXpTXQzyyk8BjKS4-N2G4SRIYodUsjJO1Pf29GRm90VicXnYpT42R_nHEirg30TR12u3w0jaU6UE0sN69u2VrlHD0QSAsKJ4hE3n94gydXQ-XiMjMv_gOGekrU',
-        types: ['shorts', 'bib', 'mallas'],
-        sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-        tierClass: 'bottoms-card--standard'
-      },
-      {
-        id: 'elite',
-        name: 'Aero Precision',
-        price: 870,
-        badge: 'ELT',
-        tierLabel: 'ELITE',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBvDVdtg7LGNhbz8GKhcis010_Uqr713pgkO1_MiC3GDpi76glDEl6xdM1zyxTPrP3-YFfsEfE5MS4EjYc0KOSs9wSqQZ_tEEYYtgK15CsvZLTshKR2uW0JWFrD0YYg83iZpGvHCEa68u6uS_0aghibEDvDe38D_TD2KFHNVn7qa3NR25_hIfdXgRqymuyAjf00YfPjwWQpfApt4vupUf39uBy27SRBcFLqyvqs-7kdhxG1DLeLxg9',
-        types: ['shorts', 'bib', 'mallas'],
-        sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-        tierClass: 'bottoms-card--elite'
-      },
-      {
-        id: 'premier',
-        name: 'Kinetic Apex',
-        price: 1400,
-        badge: 'PRM',
-        tierLabel: 'PREMIER',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAVFUI3mHFrlWBNFEvqtjW5rxbIduHHUrN2ERVU1JmLqUuIR2va6MKj_5MSik3j7p1cE5wjHqPocyePW8Ua51MFP4GIwvxC6tYzqTTMgpASlCyzlYwmlLEbII4Bhy0Oig5RCZu90fjN9F4H29O6nkLfaMPnucritQzx91ZoKWvSwYh9QQs_-M0HNKVtPwprHnsmAAQCASDkMaoJCVTqh5NGMs7wlM11f7CamIP6A0-Me2wNDdG6ayVB',
-        types: ['shorts', 'bib', 'mallas'],
-        sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-        tierClass: 'bottoms-card--premier',
-        disabledTypes: ['shorts']
-      }
-    ];
-
-    const currentTier = this.data.bottoms.tier;
-    const currentType = this.data.bottoms.type;
-    const currentSize = this.data.bottoms.size;
-
-    // Calculate running total: jersey price + bottoms price
-    const jerseyTiers = {
-      standard: 830,
-      elite: 950,
-      premier: 1280
-    };
-    const jerseyPrice = jerseyTiers[this.data.jersey.tier] || 1280;
-    const bottomsTier = tiers.find(t => t.id === currentTier);
-    const bottomsPrice = bottomsTier?.price || 870;
-    const totalPrice = jerseyPrice + bottomsPrice;
-
-    return `
-      <div class="wizard-app">
-        <!-- Top AppBar -->
-        <header class="wizard-header">
-          <button class="wizard-header__btn" aria-label="Close">
-            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
-          </button>
-          <div class="wizard-header__title">APHESIS</div>
-          <button class="wizard-header__save" aria-label="Save">SAVE</button>
-        </header>
-
-        <!-- Progress Indicator -->
-        <div class="wizard-progress" id="progress-bar">
-          <div class="wizard-progress__fill progress-bar-active" id="progress-fill" style="width: 60%"></div>
-        </div>
-        <div class="wizard-step-indicator" id="step-indicator">03 / 05</div>
-
-        <main class="wizard-main">
-          <h1 class="wizard-content__title" style="color: var(--color-primary); margin-bottom: var(--spacing-stack-md);">Select Bottoms</h1>
-          <div class="wizard-content__divider speed-line speed-line-wide"></div>
-
-          <div class="product-grid" id="bottoms-grid">
-            ${tiers.map(tier => `
-              <button class="bottoms-card ${tier.tierClass} ${tier.id === currentTier ? 'active' : ''}" 
-                      data-tier="${tier.id}" 
-                      data-price="${tier.price}">
-                <div class="bottoms-card__tier-badge">${tier.badge}</div>
-                <img class="bottoms-card__image" 
-                     src="${tier.image}" 
-                     alt="${tier.name}">
-                <div class="bottoms-card__price-row">
-                  <span class="bottoms-card__price">$${tier.price}+</span>
-                  <span class="bottoms-card__tier-label">${tier.tierLabel}</span>
-                </div>
-                <h3 class="bottoms-card__title">${tier.name}</h3>
-                <select class="bottoms-card__size-select" data-tier="${tier.id}" ${tier.id !== currentTier ? 'disabled' : ''}>
-                  <option value="">SELECT SIZE</option>
-                  ${tier.sizes.map(size => `
-                    <option value="${size}" ${size === currentSize && tier.id === currentTier ? 'selected' : ''}>${size}</option>
-                  `).join('')}
-                </select>
-                <div class="bottoms-card__type-group">
-                  ${tier.types.map(type => `
-                    <label class="bottoms-card__type-option">
-                      <input type="radio" name="type-${tier.id}" value="${type}" 
-                             ${type === currentType && tier.id === currentTier ? 'checked' : ''} 
-                             ${tier.id !== currentTier ? 'disabled' : ''}
-                             ${tier.disabledTypes?.includes(type) ? 'disabled' : ''}>
-                      <span class="bottoms-card__type-label">${type.toUpperCase()}</span>
-                    </label>
-                  `).join('')}
-                </div>
-              </button>
-            `).join('')}
-          </div>
-        </main>
-
-        <!-- Bottom Action Bar -->
-        <footer class="wizard-footer">
-          <button class="wizard-footer__cancel" id="btn-back">BACK</button>
-          <button class="wizard-footer__next" id="btn-next">Next</button>
-        </footer>
-      </div>
-    `;
-  }
-
-  bindBottomsEvents() {
-    const bottomsCards = document.querySelectorAll('.bottoms-card');
-    const nextBtn = document.getElementById('btn-next');
-    const runningTotal = document.getElementById('running-total');
-    const progressFill = document.getElementById('progress-fill');
-
-    // Update progress bar to 60% for step 3
-    if (progressFill) {
-      progressFill.style.width = '60%';
-    }
-
-    const jerseyTiers = {
-      standard: 830,
-      elite: 950,
-      premier: 1280
-    };
-
-    const selectTier = (selectedCard) => {
-      const tierId = selectedCard.dataset.tier;
-      const price = parseInt(selectedCard.dataset.price);
-
-      // Remove active from all cards
-      bottomsCards.forEach(card => {
-        card.classList.remove('active');
-        
-        // Disable size select for non-active cards
-        const sizeSelect = card.querySelector('.bottoms-card__size-select');
-        if (sizeSelect) {
-          sizeSelect.disabled = true;
-          sizeSelect.value = '';
-        }
-        
-        // Disable type inputs for non-active cards
-        const typeInputs = card.querySelectorAll('input[name^="type-"]');
-        typeInputs.forEach(input => {
-          input.disabled = true;
-          input.checked = false;
-        });
-      });
-
-      // Add active to selected
-      selectedCard.classList.add('active');
-
-      // Enable size select for active card
-      const activeSizeSelect = selectedCard.querySelector('.bottoms-card__size-select');
-      if (activeSizeSelect) {
-        activeSizeSelect.disabled = false;
-      }
-
-      // Enable type inputs for active card
-      const activeTypeInputs = selectedCard.querySelectorAll('input[name^="type-"]');
-      activeTypeInputs.forEach(input => {
-        input.disabled = false;
-      });
-
-      // Update data
-      this.data.bottoms.tier = tierId;
-      this.data.bottoms.type = null;
-      this.data.bottoms.size = null;
-
-      // Update running total
-      const jerseyPrice = jerseyTiers[this.data.jersey.tier] || 1280;
-      const totalPrice = jerseyPrice + price;
-      if (runningTotal) {
-        runningTotal.textContent = `$${totalPrice.toLocaleString()}`;
-      }
-    };
-
-    bottomsCards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        // Don't trigger if clicking on select or radio inputs/labels
-        if (e.target.tagName === 'SELECT' || e.target.tagName === 'OPTION' || 
-            e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL' ||
-            e.target.closest('.bottoms-card__type-option') || e.target.closest('.bottoms-card__size-select')) {
-          return;
-        }
-        selectTier(card);
-      });
+    const bottoms = getBottoms();
+    return this.renderCatalogStep({
+      title: 'Select Bottoms',
+      items: bottoms,
+      sizeScope: this.bottomsSizeScope(),
+      currentProduct: this.data.bottoms.product,
+      currentSize: this.data.bottoms.size,
+      imageFor: (item) => item.image,
+      step: 3
     });
-
-    // Handle size selection
-    document.querySelectorAll('.bottoms-card__size-select').forEach(select => {
-      select.addEventListener('change', (e) => {
-        if (e.target.value) {
-          this.data.bottoms.size = e.target.value;
-        }
-      });
-    });
-
-    // Handle type selection
-    document.querySelectorAll('.bottoms-card__type-option input').forEach(input => {
-      input.addEventListener('change', (e) => {
-        if (e.target.checked) {
-          this.data.bottoms.type = e.target.value;
-        }
-      });
-    });
-
-    nextBtn.addEventListener('click', () => {
-      this.nextStep();
-    });
-
-    const backBtn = document.getElementById('btn-back');
-    if (backBtn) {
-      backBtn.addEventListener('click', () => {
-        this.prevStep();
-      });
-    }
   }
 
   renderAccessoriesStep() {
-    const accessories = [
-      {
-        id: 'gloves',
-        name: 'AERO PRO GLOVES',
-        material: 'Carbon Fiber',
-        price: 275,
-        tier: 'premier',
-        tierLabel: 'PRM',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCiPyu6Y2ljW4ri2KB4FNRQelszb6gD7mIYmNs4n2qGiLZ6cI6_6R_DTLXsKrkgvg1lufXQjJ8guW6ZgADeXuAt669M5axf21Fnqb0LZi43bmpVpPS_42pdVOcvb1clR_bWNfIRCUjjxkokcbCa4PWD_xPBCGPwT4PgQXr54allqiQ-WvCMz7scvJhvrLcrF85-WeiN5cYIBxcmKN02_Iur6xv-k-r0CKcVrOBt3u6hSBb3cp6e5qJk',
-        selected: true
-      },
-      {
-        id: 'buff',
-        name: 'THERMAL BUFF',
-        material: 'Merino Blend',
-        price: 190,
-        tier: 'elite',
-        tierLabel: 'ELT',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBTQdEQEziauuCtFqHR709m9DTSb2R8BhNh7fsABAxleuvJx9oMLWX95XFE3oY4neyCFVHhiMQ_3twzgXLJIRQnE5hvgW6fVUABG9j7z4S4Mbp4jUwJxr4CaIY7XhF2b6Ywpcu325_QgPFCs_3EuLqkun--2mREN4SiLOrF_gZTctfIo-tUughmCvAZR-IF-jUb_998dUd6lS6dlbNMAv-xE672W9WEVA2uICTp6eDT0bzoSE-Y4Tcy',
-        selected: true
-      },
-      {
-        id: 'socks',
-        name: 'COMPRESSION SOCKS',
-        material: 'Classic White',
-        price: 45,
-        tier: 'standard',
-        tierLabel: 'STD',
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBlHmKSDyc4Tr_4xXICyFXDn0crqF-5UZ4HXYqU6s_u5VHbvJIPfu6fYLBcZL467IMzvWK5kxXPH1sUT7R_tRtWpEq2U9OqO5G5Y57KNlGmiLur65dzSwOUNzMzzpNe2dH4YsznDwb2f9id-VefqeDKbaI4zYAbC5AUww1Sm0hfMYDC-ED3uF7ZBw6yhmeqefR-8dL7O0YJxzcFTMAy02Bl66vxlZwQ0iOLHg7ZRXbd-WCLhhQptTbk',
-        selected: false
-      }
-    ];
+    const accessories = getAccessories();
+    const addOns = getAddOns();
+
+    const accessoryItems = this.data.accessories.items;
+    const addOnItems = this.data.add_ons.items;
 
     // Calculate running total
-    const jerseyTiers = { standard: 830, elite: 950, premier: 1280 };
-    const bottomsTiers = { standard: 700, elite: 870, premier: 1400 };
-    const jerseyPrice = jerseyTiers[this.data.jersey.tier] || 1280;
-    const bottomsPrice = bottomsTiers[this.data.bottoms.tier] || 870;
-    const accessoriesPrice = accessories.filter(a => a.selected).reduce((sum, a) => sum + a.price, 0);
-    const totalPrice = jerseyPrice + bottomsPrice + accessoriesPrice;
+    const jersey = getProductById(this.data.jersey.product);
+    const bottoms = getProductById(this.data.bottoms.product);
+    const accessoriesTotal = accessories
+      .filter(a => accessoryItems.includes(a.id))
+      .reduce((sum, a) => sum + a.price, 0);
+    const addOnsTotal = addOns
+      .filter(a => addOnItems.includes(a.id))
+      .reduce((sum, a) => sum + a.price, 0);
+    const totalPrice = (jersey?.price || 0) + (bottoms?.price || 0) + accessoriesTotal + addOnsTotal;
 
     const tierBadgeClass = {
       premier: 'accessory-card__tier-badge--premier',
@@ -692,112 +346,215 @@ export class App {
 
         <!-- Main Content Canvas -->
         <main class="wizard-main">
-          <div class="max-w-[1200px] mx-auto px-[var(--spacing-margin-mobile)] md:px-[var(--spacing-margin-desktop)] py-[var(--spacing-stack-lg)]">
-            <div class="flex items-baseline justify-between mb-[var(--spacing-stack-md)]">
-              <h2 class="wizard-content__title">Accessories</h2>
-              <span class="font-mono text-[var(--font-size-label-caps)] leading-[var(--line-height-label-caps)] font-semibold letter-spacing-[var(--letter-spacing-label-caps)] text-primary uppercase">STEP 04/05</span>
-            </div>
-            <div class="wizard-content__divider speed-line mb-[var(--spacing-stack-lg)]"></div>
+          <div class="wizard-content">
+            <h2 class="wizard-content__title">Accessories</h2>
+            <div class="wizard-content__divider speed-line"></div>
+          </div>
 
-            <!-- Bento Grid / Multi-Select Cards -->
-            <div class="accessories-grid" id="accessories-grid">
-              ${accessories.map(accessory => `
-                <button class="accessory-card ${accessory.selected ? 'selected' : ''}" 
+          <!-- Bento Grid / Multi-Select Cards -->
+          <div class="accessories-grid" id="accessories-grid">
+            ${accessories.map(accessory => {
+              const isSelected = accessoryItems.includes(accessory.id);
+              const image = accessory.image;
+              return `
+                <button class="accessory-card ${isSelected ? 'selected' : ''}"
                         data-id="${accessory.id}"
                         data-price="${accessory.price}"
-                        data-tier="${accessory.tier}">
+                        data-kind="accessory">
                   <div class="accessory-card__overlay"></div>
-                  <div class="accessory-card__tier-badge ${tierBadgeClass[accessory.tier]}">${accessory.tierLabel}</div>
+                  <div class="accessory-card__tier-badge ${tierBadgeClass[accessory.tier] || tierBadgeClass.standard}">${accessory.tierLabel}</div>
                   <div class="accessory-card__image-wrapper">
-                    <img class="accessory-card__image" 
-                         src="${accessory.image}" 
+                    <img class="accessory-card__image"
+                         src="${image}"
                          alt="${accessory.name}">
                   </div>
                   <div class="accessory-card__content">
                     <div class="accessory-card__info">
                       <span class="accessory-card__name">${accessory.name}</span>
-                      <span class="accessory-card__material">${accessory.material}</span>
+                      <span class="accessory-card__material">${accessory.tier ? accessory.tier.toUpperCase() : 'CATALOG'}</span>
                     </div>
-                    <div class="accessory-card__price">$${accessory.price}</div>
+                    <div class="accessory-card__price">${formatPrice(accessory.price)}</div>
                   </div>
-                  ${accessory.selected ? `
+                  ${isSelected ? `
                     <div class="accessory-card__check">
                       <span class="material-symbols-outlined">check</span>
                     </div>
                   ` : ''}
                 </button>
-              `).join('')}
-            </div>
+              `;
+            }).join('')}
           </div>
+
+          ${addOns.length ? `
+            <h3 class="accessories-grid__subtitle">ADD-ONS</h3>
+            <div class="accessories-grid" id="addons-grid">
+              ${addOns.map(addOn => {
+                const isSelected = addOnItems.includes(addOn.id);
+                return `
+                  <button class="accessory-card ${isSelected ? 'selected' : ''}"
+                          data-id="${addOn.id}"
+                          data-price="${addOn.price}"
+                          data-kind="addon">
+                    <div class="accessory-card__overlay"></div>
+                    <div class="accessory-card__tier-badge ${tierBadgeClass.standard}">EXTRA</div>
+                    <div class="accessory-card__image-wrapper accessory-card__image-wrapper--addon">
+                      <span class="material-symbols-outlined accessories-grid__addon-icon">add_circle</span>
+                    </div>
+                    <div class="accessory-card__content">
+                      <div class="accessory-card__info">
+                        <span class="accessory-card__name">${addOn.name}</span>
+                        <span class="accessory-card__material">${addOn.type.toUpperCase().replace('_', ' ')}</span>
+                      </div>
+                      <div class="accessory-card__price">${formatPrice(addOn.price)}</div>
+                    </div>
+                    ${isSelected ? `
+                      <div class="accessory-card__check">
+                        <span class="material-symbols-outlined">check</span>
+                      </div>
+                    ` : ''}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          ` : ''}
         </main>
 
         <!-- Bottom Action Bar -->
         <footer class="wizard-footer">
           <button class="wizard-footer__cancel" id="btn-back">BACK</button>
+          <div class="wizard-footer__total">
+            <span class="wizard-footer__total-label">Running Total</span>
+            <span class="wizard-footer__total-amount" id="running-total">${formatPrice(totalPrice)}</span>
+          </div>
           <button class="wizard-footer__next" id="btn-next">Review Order</button>
         </footer>
       </div>
     `;
   }
 
+  bindJerseyEvents() {
+    this.bindProductGridEvents({
+      key: 'jersey'
+    });
+  }
+
+  bindBottomsEvents() {
+    this.bindProductGridEvents({
+      key: 'bottoms'
+    });
+  }
+
+  bindProductGridEvents({ key }) {
+    const productCards = document.querySelectorAll('.product-card');
+    const nextBtn = document.getElementById('btn-next');
+
+    const selectProduct = (selectedCard) => {
+      const productId = selectedCard.dataset.product;
+
+      productCards.forEach(card => {
+        card.classList.remove('active');
+
+        const sizeInputs = card.querySelectorAll('input[name^="size-"]');
+        sizeInputs.forEach(input => {
+          input.disabled = true;
+          input.checked = false;
+        });
+
+        const sizeLabels = card.querySelectorAll('.size-option__label');
+        sizeLabels.forEach(label => {
+          label.style.backgroundColor = '';
+          label.style.color = '';
+          label.style.borderColor = '';
+        });
+      });
+
+      selectedCard.classList.add('active');
+
+      const activeSizeInputs = selectedCard.querySelectorAll('input[name^="size-"]');
+      activeSizeInputs.forEach(input => {
+        input.disabled = false;
+      });
+
+      this.data[key].product = productId;
+      this.data[key].size = null;
+    };
+
+    productCards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL' || e.target.closest('.size-option')) {
+          return;
+        }
+        selectProduct(card);
+      });
+    });
+
+    document.querySelectorAll('.size-option input').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const productId = e.target.name.replace('size-', '');
+        if (e.target.checked) {
+          this.data[key].size = e.target.value;
+        }
+      });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      this.nextStep();
+    });
+
+    const backBtn = document.getElementById('btn-back');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        this.prevStep();
+      });
+    }
+  }
+
   bindAccessoriesEvents() {
     const accessoryCards = document.querySelectorAll('.accessory-card');
     const nextBtn = document.getElementById('btn-next');
     const runningTotal = document.getElementById('running-total');
-    const progressFill = document.getElementById('progress-fill');
 
-    // Update progress bar to 80% for step 4
-    if (progressFill) {
-      progressFill.style.width = '80%';
-    }
+    const jersey = getProductById(this.data.jersey.product);
+    const bottoms = getProductById(this.data.bottoms.product);
+    const basePrice = (jersey?.price || 0) + (bottoms?.price || 0);
 
-    // Update step indicator
-    const stepIndicator = document.getElementById('step-indicator');
-    if (stepIndicator) {
-      stepIndicator.textContent = '04 / 05';
-    }
-
-    // Calculate base price (jersey + bottoms)
-    const jerseyTiers = { standard: 830, elite: 950, premier: 1280 };
-    const bottomsTiers = { standard: 700, elite: 870, premier: 1400 };
-    const basePrice = (jerseyTiers[this.data.jersey.tier] || 1280) + (bottomsTiers[this.data.bottoms.tier] || 870);
-
-    const toggleAccessory = (card) => {
-      const accessoryId = card.dataset.id;
+    const toggleItem = (card) => {
+      const itemId = card.dataset.id;
       const price = parseInt(card.dataset.price);
+      const kind = card.dataset.kind === 'addon' ? 'add_ons' : 'accessories';
       const isSelected = card.classList.contains('selected');
+      const items = this.data[kind].items;
 
       if (isSelected) {
         card.classList.remove('selected');
-        // Remove check indicator
         const check = card.querySelector('.accessory-card__check');
         if (check) check.remove();
-        // Update data
-        this.data.accessories.items = this.data.accessories.items.filter(id => id !== accessoryId);
+        const index = items.indexOf(itemId);
+        if (index !== -1) items.splice(index, 1);
       } else {
         card.classList.add('selected');
-        // Add check indicator
         const checkHtml = `
           <div class="accessory-card__check">
             <span class="material-symbols-outlined">check</span>
           </div>
         `;
         card.insertAdjacentHTML('beforeend', checkHtml);
-        // Update data
-        this.data.accessories.items.push(accessoryId);
+        items.push(itemId);
       }
 
-      // Recalculate total
-      const accessoriesPrice = Array.from(document.querySelectorAll('.accessory-card.selected'))
+      const accessoriesPrice = Array.from(document.querySelectorAll('.accessory-card[data-kind="accessory"].selected'))
         .reduce((sum, c) => sum + parseInt(c.dataset.price), 0);
-      const totalPrice = basePrice + accessoriesPrice;
+      const addOnsPrice = Array.from(document.querySelectorAll('.accessory-card[data-kind="addon"].selected'))
+        .reduce((sum, c) => sum + parseInt(c.dataset.price), 0);
+      const totalPrice = basePrice + accessoriesPrice + addOnsPrice;
+
       if (runningTotal) {
-        runningTotal.textContent = `$${totalPrice.toLocaleString()}`;
+        runningTotal.textContent = formatPrice(totalPrice);
       }
     };
 
     accessoryCards.forEach(card => {
-      card.addEventListener('click', () => toggleAccessory(card));
+      card.addEventListener('click', () => toggleItem(card));
     });
 
     nextBtn.addEventListener('click', () => {
@@ -813,44 +570,23 @@ export class App {
   }
 
   renderSummaryStep() {
-    // Build summary data based on current selections
-    const jerseyTiers = {
-      standard: { name: 'Standard Jersey', price: 830, badge: 'STD' },
-      elite: { name: 'Elite Jersey', price: 950, badge: 'ELT' },
-      premier: { name: 'Aero-Kinetic Jersey', price: 1280, badge: 'PRM' }
-    };
-    const bottomsTiers = {
-      standard: { name: 'Core Endurance', price: 700, badge: 'STD' },
-      elite: { name: 'Compression Bib Shorts', price: 870, badge: 'ELT' },
-      premier: { name: 'Kinetic Apex', price: 1400, badge: 'PRM' }
-    };
+    const jersey = getProductById(this.data.jersey.product);
+    const bottoms = getProductById(this.data.bottoms.product);
 
-    const jersey = jerseyTiers[this.data.jersey.tier] || jerseyTiers.premier;
-    const bottoms = bottomsTiers[this.data.bottoms.tier] || bottomsTiers.elite;
+    const accessoryItems = this.data.accessories.items
+      .map(id => getProductById(id))
+      .filter(Boolean);
+    const addOnItems = this.data.add_ons.items
+      .map(id => getProductById(id))
+      .filter(Boolean);
 
-    const accessories = {
-      gloves: {
-        id: 'gloves', name: 'Sprint Gloves', material: 'Carbon Fiber', price: 275,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCboeZpECvydaij-FZzZ2r3pKjKvL0qoUbK9yWk8iubdhABYpzE6gpRNXgj-dwLCXCnApz4idQkObgHQJYklSllJjpIJeq8Ty0Iv8470RcC4nyFrV0yGBTbCOHzHg8V81XVIQ7FeWErj4z_JN3oPPVl7Xr6BIY9hbJd0w9jmlrVK6YZOyw4WZbl9WtedOy1v9egP3lJnb2-vt17zCgqknL718f5ISNKv3jfu18EAvClUpiGBzNn_-8R'
-      },
-      buff: {
-        id: 'buff', name: 'THERMAL BUFF', material: 'Merino Blend', price: 190,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBTQdEQEziauuCtFqHR709m9DTSb2R8BhNh7fsABAxleuvJx9oMLWX95XFE3oY4neyCFVHhiMQ_3twzgXLJIRQnE5hvgW6fVUABG9j7z4S4Mbp4jUwJxr4CaIY7XhF2b6Ywpcu325_QgPFCs_3EuLqkun--2mREN4SiLOrF_gZTctfIo-tUughmCvAZR-IF-jUb_998dUd6lS6dlbNMAv-xE672W9WEVA2uICTp6eDT0bzoSE-Y4Tcy'
-      },
-      socks: {
-        id: 'socks', name: 'Aero Socks', material: 'Classic White', price: 45,
-        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCow_LaPvB4HeOEnUw8ssM7MfUS-Wd_A6jS4o2uV_g5ezox70gn38DADmMp2ojrqCcN4yMS_ExZY-GwniKBzu0LigrSVgl5uW3yVheYoTxzGn22Wn0qmC6wQLNOOVaf-cUkZbbEJc2bNh-4Wbz9746-iIw6MxXq_WWH2LeS5DDSByWEBdglzM1uR1lfyEjbQusEzlU9WNZVHpMnKnbAx42f9TuLTxJD0xwYMlUT8QSNLWSeOgOGqh2q'
-      }
-    };
+    const genderLabel = this.genderLabel();
+    const jerseySize = this.data.jersey.size || '—';
+    const bottomsSize = this.data.bottoms.size || '—';
 
-    const selectedAccessories = this.data.accessories.items;
-    const accessoryItems = selectedAccessories.map(id => accessories[id]).filter(Boolean);
-
-    const jerseyImageUrl = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAO3-08vbbm1ezRz6LhDn3q_s8IsdZA95ILlOEHVl6lXed_sxoROdXRYHP0WLbh0O1QlOl7eWUPrrUjlOljSmRY5ufcauyzSG4GxktAyB2iSqK_o9Fm_fgi6ULHworCdXAVB2WlJAWyioo57ekUtMPC65doeHzW9DqWOj9pP8acnL92WF9WYOvWhM08YLDiWczPCdLYpy_5hekqKEf_AbpGy_mdBAAwMCui2mb7GEnFprynyUGQSqRt';
-    const bottomsImageUrl = 'https://lh3.googleusercontent.com/aida-public/AB6AXuBr3G9GaSqjZM4VRcDWpesiKjbba0kh44dd-ozm3Ef3bj7qFWWRxOuJujQRkjNl5Iuj3KdVMFFjsqPdNbCF-0yc8WYdikx1lVNuzbD5Z6xl4p8KyAOok-ocCwehDeo3B0hCUE_y9yo5eTLihOMz0sxHU9JdZCwpatGsCAiE3is20VOr3nTRlH3p-PKSpDYaqMJfYGHB6o7YeH8nCNqCQDU4UdxUt2iEIpRUyqhUnjStNlIpA9TEHnKb';
-
-    // Calculate totals
-    const subtotal = jersey.price + bottoms.price + accessoryItems.reduce((sum, a) => sum + a.price, 0);
+    const subtotal = (jersey?.price || 0) + (bottoms?.price || 0)
+      + accessoryItems.reduce((sum, a) => sum + a.price, 0)
+      + addOnItems.reduce((sum, a) => sum + a.price, 0);
 
     return `
       <div class="wizard-app">
@@ -874,7 +610,7 @@ export class App {
           <div class="summary-header">
             <h2 class="summary-header__title">05. Summary</h2>
             <div class="summary-header__divider"></div>
-            <p class="summary-header__description">Finalize your kinetic precision configuration. Review your selections below before proceeding to checkout.</p>
+            <p class="summary-header__description">Finalize your precision configuration. Review your selections below before proceeding to checkout.</p>
           </div>
 
           <div class="summary-grid">
@@ -882,41 +618,41 @@ export class App {
             <div class="summary-grid__left">
               <div class="bento-grid">
                 <!-- Bento Item: Jersey -->
-                <div class="bento-card bento-card--premier">
+                <div class="bento-card ${jersey?.tier ? `bento-card--${jersey.tier}` : ''}">
                   <div class="bento-card__layout">
                     <div class="bento-card__image-wrapper">
-                      <img class="bento-card__image" src="${jerseyImageUrl}" alt="Aero Ethics Jersey">
-                      <div class="bento-card__tier-badge bento-card__tier-badge--premier">PRM</div>
+                      <img class="bento-card__image" src="${jersey?.image || ''}" alt="${jersey?.name || 'Jersey'}">
+                      <div class="bento-card__tier-badge bento-card__tier-badge--standard">${jersey?.tierLabel || '—'}</div>
                     </div>
                     <div class="bento-card__content">
                       <div class="bento-card__header">
-                        <h3 class="bento-card__title">Aero-Kinetic Jersey</h3>
-                        <span class="bento-card__price">$${jersey.price}</span>
+                        <h3 class="bento-card__title">${jersey?.name || 'No jersey selected'}</h3>
+                        <span class="bento-card__price">${jersey ? formatPrice(jersey.price) : '—'}</span>
                       </div>
-                      <p class="bento-card__details">Men's / Size M / Obsidian Black</p>
+                      <p class="bento-card__details">${genderLabel} / Size ${jerseySize}</p>
                       <div class="bento-card__tags">
-                        <span class="bento-card__tag">Ultra-weave Textile</span>
-                        <span class="bento-card__tag">Aero Fit</span>
+                        <span class="bento-card__tag">Jersey</span>
+                        <span class="bento-card__tag">${jersey?.tierName || '—'} Fit</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <!-- Bento Item: Bottoms -->
-                <div class="bento-card bento-card--elite">
+                <div class="bento-card ${bottoms?.tier ? `bento-card--${bottoms.tier}` : ''}">
                   <div class="bento-card__layout">
                     <div class="bento-card__image-wrapper">
-                      <img class="bento-card__image" src="${bottomsImageUrl}"  alt="KOMPression"/>
-                      <div class="bento-card__tier-badge bento-card__tier-badge--elite">ELT</div>
+                      <img class="bento-card__image" src="${bottoms?.image || ''}"  alt="${bottoms?.name || 'Bottoms'}">
+                      <div class="bento-card__tier-badge bento-card__tier-badge--standard">${bottoms?.tierLabel || '—'}</div>
                     </div>
                     <div class="bento-card__content">
                       <div class="bento-card__header">
-                        <h3 class="bento-card__title">Compression Bib Shorts</h3>
-                        <span class="bento-card__price">$${bottoms.price}</span>
+                        <h3 class="bento-card__title">${bottoms?.name || 'No bottoms selected'}</h3>
+                        <span class="bento-card__price">${bottoms ? formatPrice(bottoms.price) : '—'}</span>
                       </div>
-                      <p class="bento-card__details">Men's / Size M / Stealth Carbon</p>
+                      <p class="bento-card__details">${genderLabel} / Size ${bottomsSize}</p>
                       <div class="bento-card__tags">
-                        <span class="bento-card__tag">Endurance Chamois</span>
+                        <span class="bento-card__tag">${bottoms?.category || '—'}</span>
                       </div>
                     </div>
                   </div>
@@ -927,17 +663,35 @@ export class App {
                   ${accessoryItems.map(acc => `
                     <div class="accessory-mini-card">
                       <div class="accessory-mini-card__image-wrapper">
+                        <div class="accessory-mini-card__image" style="background-image: url('${acc.image || ''}')"></div>
                         <div class="accessory-mini-card__tier-badge accessory-mini-card__tier-badge--standard">STD</div>
                       </div>
                       <div class="accessory-mini-card__content">
                         <div class="accessory-mini-card__header">
                           <h4 class="accessory-mini-card__name">${acc.name}</h4>
-                          <span class="accessory-mini-card__price">$${acc.price}</span>
+                          <span class="accessory-mini-card__price">${formatPrice(acc.price)}</span>
                         </div>
-                        <p class="accessory-mini-card__details">Size M / Black</p>
+                        <p class="accessory-mini-card__details">Accessory</p>
                       </div>
                     </div>
                   `).join('')}
+                  ${addOnItems.map(addOn => `
+                    <div class="accessory-mini-card">
+                      <div class="accessory-mini-card__image-wrapper">
+                        <div class="accessory-mini-card__tier-badge accessory-mini-card__tier-badge--standard">EXTRA</div>
+                      </div>
+                      <div class="accessory-mini-card__content">
+                        <div class="accessory-mini-card__header">
+                          <h4 class="accessory-mini-card__name">${addOn.name}</h4>
+                          <span class="accessory-mini-card__price">${formatPrice(addOn.price)}</span>
+                        </div>
+                        <p class="accessory-mini-card__details">Add-on</p>
+                      </div>
+                    </div>
+                  `).join('')}
+                  ${!accessoryItems.length && !addOnItems.length ? `
+                    <p class="accessory-mini-card__empty">No accessories selected</p>
+                  ` : ''}
                 </div>
               </div>
             </div>
@@ -949,7 +703,7 @@ export class App {
                 <div class="checkout-card__rows">
                   <div class="checkout-row">
                     <span>Subtotal</span>
-                    <span class="checkout-row__value">$${subtotal.toFixed(2)}</span>
+                    <span class="checkout-row__value">${formatPrice(subtotal)}</span>
                   </div>
                   <div class="checkout-row">
                     <span>Shipping</span>
@@ -962,7 +716,7 @@ export class App {
                   <div class="checkout-card__divider"></div>
                   <div class="checkout-card__total">
                     <span class="checkout-card__total-label">Grand Total</span>
-                    <span class="checkout-card__total-amount">$${subtotal.toFixed(2)}</span>
+                    <span class="checkout-card__total-amount">${formatPrice(subtotal)}</span>
                   </div>
                 </div>
 

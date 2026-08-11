@@ -1,0 +1,45 @@
+{
+  "size_charts": [
+    {
+      "category": "JERSEY HOMBRE",
+      "headers": ["TALLA", "XS", "S", "M", "L", "XL", "XXL"],
+      "rows": [
+        {"medida": "PECHO", "XS": 90, "S": 95, "M": 101, "L": 106, "XL": 111, "XXL": 117},
+        {"medida": "CINTURA", "XS": 75, "S": 80, "M": 84, "L": 90, "XL": 95, "XXL": 101},
+        {"medida": "CADERA", "XS": 92, "S": 96, "M": 100, "L": 105, "XL": 110, "XXL": 114}
+      ]
+    },
+    {
+      "category": "SHORT/BIB HOMBRE",
+      "headers": ["TALLA", "XS", "S", "M", "L", "XL", "XXL"],
+      "rows": [
+        {"medida": "CADERA", "XS": 98, "S": 102, "M": 106, "L": 110, "XL": 114, "XXL": 118},
+        {"medida": "TIRO", "XS": 16, "S": 17, "M": 18, "L": 19, "XL": 20, "XXL": 21}
+      ]
+    },
+    {
+      "category": "JERSEY MUJER",
+      "headers": ["TALLA", "XS", "S", "M", "L", "XL", "XXL"],
+      "rows": [
+        {"medida": "PECHO", "XS": 83, "S": 87, "M": 92, "L": 96, "XL": 100, "XXL": 104},
+        {"medida": "CINTURA", "XS": 64, "S": 69, "M": 74, "L": 78, "XL": 82, "XXL": 86},
+        {"medida": "CADERA", "XS": 91, "S": 95, "M": 99, "L": 103, "XL": 107, "XXL": 111}
+      ]
+    },
+    {
+      "category": "SHORT/BIB MUJER",
+      "headers": ["TALLA", "XS", "S", "M", "L", "XL", "XXL"],
+      "rows": [
+        {"medida": "CADERA", "XS": 91, "S": 95, "M": 99, "L": 103, "XL": 107, "XXL": 111},
+        {"medida": "TIRO", "XS": 16, "S": 17, "M": 18, "L": 19, "XL": 20, "XXL": 21}
+      ]
+    },
+    {
+      "category": "Guantes",
+      "headers": ["TALLA", "S", "M", "L"],
+      "rows": [
+        {"medida": "CIRCUNFERENCIA PALMA", "S": "19-20 cm", "M": "21-22 cm", "L": "23-24 cm"}
+      ]
+    }
+  ]
+}

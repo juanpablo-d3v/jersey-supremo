@@ -1,0 +1,296 @@
+@import '../styles/reset.css';
+@import '../styles/variables.css';
+
+.prices-page {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-body-md);
+  line-height: var(--line-height-body-md);
+  font-weight: var(--font-weight-regular);
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  min-height: 100dvh;
+}
+
+/* ============================================
+   MAIN LAYOUT
+   ============================================ */
+
+.ps-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-stack-lg) var(--spacing-margin-mobile);
+}
+
+@media (min-width: 768px) {
+  .ps-main {
+    max-width: var(--content-max-width);
+    padding: var(--spacing-margin-desktop);
+  }
+}
+
+.ps-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-stack-lg);
+  margin-top: var(--spacing-stack-lg);
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+
+.ps-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--color-surface-container-high), var(--color-surface-container-lowest));
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-xl);
+  height: 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .ps-hero {
+    height: 16rem;
+  }
+}
+
+.ps-hero__athlete {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 33.3333%;
+  overflow: hidden;
+}
+
+.ps-hero__athlete--left {
+  left: 0;
+}
+
+.ps-hero__athlete--right {
+  right: 0;
+}
+
+.ps-hero__athlete-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ps-hero__athlete-fade {
+  position: absolute;
+  inset: 0;
+}
+
+.ps-hero__athlete-fade--left,
+.ps-hero__athlete-fade--right {
+  background: linear-gradient(180deg, transparent, var(--color-surface-container-lowest));
+}
+
+.ps-hero__content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 var(--spacing-gutter-mobile);
+}
+
+.ps-hero__logo {
+  height: 3rem;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: var(--spacing-stack-sm);
+}
+
+@media (min-width: 768px) {
+  .ps-hero__logo {
+    height: 5rem;
+  }
+}
+
+.ps-hero__title {
+  font-family: var(--font-family-headline);
+  font-size: var(--font-size-headline-lg);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  .ps-hero__title {
+    font-size: var(--font-size-headline-xl);
+    line-height: var(--line-height-headline-xl);
+  }
+}
+
+.ps-hero__subtitle {
+  font-family: var(--font-family-mono);
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-label-caps);
+  color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+  margin-top: var(--spacing-unit);
+}
+
+@media (min-width: 768px) {
+  .ps-hero__subtitle {
+    font-size: var(--font-size-label-caps);
+  }
+}
+
+/* ============================================
+   PRICE SECTIONS
+   ============================================ */
+
+.ps-price-section {
+  position: relative;
+  background-color: var(--color-surface-container-low);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-margin-mobile);
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .ps-price-section {
+    padding: var(--spacing-gutter-desktop);
+  }
+}
+
+.ps-price-section__glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8rem;
+  height: 8rem;
+  background-color: rgba(152, 231, 179, 0.05);
+  border-bottom-left-radius: var(--radius-full);
+  transform: translate(2rem, -2rem);
+  pointer-events: none;
+}
+
+.ps-price-section__title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-stack-sm);
+  font-family: var(--font-family-headline);
+  font-size: var(--font-size-headline-lg-mobile);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  padding-bottom: var(--spacing-stack-sm);
+  margin-bottom: var(--spacing-stack-md);
+  border-bottom: 1px solid rgba(8, 82, 48, 0.3);
+}
+
+/* ============================================
+   PRICE GRID & CARDS
+   ============================================ */
+
+.ps-price-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-gutter-desktop);
+}
+
+@media (min-width: 768px) {
+  .ps-price-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .ps-price-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.ps-price-card {
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-stack-md);
+  transition: border-color 0.2s ease;
+}
+
+.ps-price-card:hover {
+  border-color: var(--color-secondary);
+}
+
+.ps-price-card__title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-stack-sm);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-label-caps);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-label-caps);
+  color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-stack-md);
+}
+
+.ps-price-card__title .material-symbols-outlined {
+  font-size: 1rem;
+  color: var(--color-primary);
+}
+
+.ps-price-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ps-price-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: var(--spacing-stack-sm);
+  border-bottom: 1px solid rgba(63, 73, 65, 0.3);
+}
+
+.ps-price-row + .ps-price-row {
+  margin-top: var(--spacing-stack-sm);
+}
+
+.ps-price-row--last {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.ps-price-row__name {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-body-md);
+  color: var(--color-on-surface);
+}
+
+.ps-price-row__value {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-label-caps);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-label-caps);
+  color: var(--color-primary);
+  background-color: var(--color-secondary-container);
+  padding: var(--spacing-unit) 8px;
+  border-radius: var(--radius-default);
+  white-space: nowrap;
+  margin-left: var(--spacing-stack-sm);
+}
+
+/* ============================================
+   RESPONSIVE TOKENS
+   ============================================ */
+
+:root {
+  --content-max-width: 64rem;
+}
