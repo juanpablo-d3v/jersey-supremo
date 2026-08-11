@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
-  base: '/webWizard/',
+  base: '/jersey-supremo/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
