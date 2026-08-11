@@ -106,7 +106,7 @@ function renderAccessoriesSection() {
   }
   if (addOns.length) {
     const addOnRows = addOns.map((addOn, index) =>
-      renderPriceRow({ name: addOn.name }, index === addOns.length - 1)
+      renderPriceRow(addOn, index === addOns.length - 1)
     ).join('');
     sections.push(`
       <div class="ps-price-card">
