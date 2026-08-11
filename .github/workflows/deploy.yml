@@ -18,12 +18,10 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-        working-directory: webWizard
       - run: npm run build
-        working-directory: webWizard
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: webWizard/dist
+          path: dist
 
   deploy:
     needs: build
