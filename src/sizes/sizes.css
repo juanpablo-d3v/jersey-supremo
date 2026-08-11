@@ -160,6 +160,7 @@
 }
 
 .sz-card {
+  min-width: 0;
   background-color: var(--color-surface-container-high);
   border: 1px solid rgba(8, 82, 48, 0.3);
   border-radius: var(--radius-xl);
@@ -190,6 +191,8 @@
 
 .sz-table-wrap {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--spacing-stack-xs);
 }
 
 .sz-table {
