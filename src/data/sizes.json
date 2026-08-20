@@ -36,7 +36,8 @@
     },
     {
       "category": "JERSEY/SHORTS INFANTIL",
-      "headers": ["TALLA", "6", "8", "10", "12"]
+      "headers": ["TALLA", "6", "8", "10", "12"],
+      "rows": []
     },
     {
       "category": "Guantes",
