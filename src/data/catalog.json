@@ -23,6 +23,20 @@
             "image": "src/assets/images/jersey-ml.jpg"
           },
           {
+            "id": "std-jersey-infantil-mc",
+            "name": "Jersey infantil STD manga corta",
+            "category": "Jerseys",
+            "price": 590.00,
+            "image": "src/assets/images/jersey-mc.jpeg"
+          },
+          {
+            "id": "std-jersey-infantil-ml",
+            "name": "Jersey infantil STD manga larga",
+            "category": "Jerseys",
+            "price": 680.00,
+            "image": "src/assets/images/jersey-ml.jpg"
+          },
+          {
             "id": "std-bib-short",
             "name": "Bib Short STD",
             "category": "Shorts & Bibs",
@@ -34,6 +48,20 @@
             "name": "Short STD",
             "category": "Shorts & Bibs",
             "price": 700.00,
+            "image": "src/assets/images/short.png"
+          },
+          {
+            "id": "std-bib-short-infantil",
+            "name": "Bib Short infantil STD",
+            "category": "Shorts & Bibs",
+            "price": 680.00,
+            "image": "src/assets/images/bib-short.jpeg"
+          },
+          {
+            "id": "std-short-infantil",
+            "name": "Short infantil STD",
+            "category": "Shorts & Bibs",
+            "price": 580.00,
             "image": "src/assets/images/short.png"
           },
           {
@@ -78,6 +106,20 @@
             "image": "src/assets/images/jersey-ml.jpg"
           },
           {
+            "id": "elite-jersey-infantil-mc",
+            "name": "Jersey infantil manga corta ELITE",
+            "category": "Jerseys",
+            "price": 720.00,
+            "image": "src/assets/images/jersey-mc.jpeg"
+          },
+          {
+            "id": "elite-jersey-infantil-ml",
+            "name": "Jersey infantil manga larga ELITE",
+            "category": "Jerseys",
+            "price": 820.00,
+            "image": "src/assets/images/jersey-ml.jpg"
+          },
+          {
             "id": "elite-bib-short",
             "name": "Bib short ELITE",
             "category": "Shorts & Bibs",
@@ -89,6 +131,20 @@
             "name": "Short ELITE",
             "category": "Shorts & Bibs",
             "price": 870.00,
+            "image": "src/assets/images/short.png"
+          },
+          {
+            "id": "elite-bib-short-infantil",
+            "name": "Bib Short infantil ELITE",
+            "category": "Shorts & Bibs",
+            "price": 790.00,
+            "image": "src/assets/images/bib-short.jpeg"
+          },
+          {
+            "id": "elite-short-infantil",
+            "name": "Short infantil ELITE",
+            "category": "Shorts & Bibs",
+            "price": 710.00,
             "image": "src/assets/images/short.png"
           },
           {
@@ -123,6 +179,20 @@
             "name": "Jersey manga larga PREMIER",
             "category": "Jerseys",
             "price": 1430.00,
+            "image": "src/assets/images/jersey-ml.jpg"
+          },
+          {
+            "id": "premier-jersey-infantil-mc",
+            "name": "Jersey infantil manga corta PREMIER",
+            "category": "Jerseys",
+            "price": 860.00,
+            "image": "src/assets/images/jersey-mc.jpeg"
+          },
+          {
+            "id": "premier-jersey-infantil-ml",
+            "name": "Jersey infantil manga larga PREMIER",
+            "category": "Jerseys",
+            "price": 1020.00,
             "image": "src/assets/images/jersey-ml.jpg"
           },
           {
